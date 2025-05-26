@@ -56,7 +56,7 @@ export type CommandConfirmation = {
 const alreadyProcessedResponses = new Set();
 const alreadyStagedItemIds = new Set<string>();
 
-type AgentLoopParams = {
+export type AgentLoopParams = {
   model: string;
   provider?: string;
   config?: AppConfig;
