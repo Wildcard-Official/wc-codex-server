@@ -1,0 +1,14 @@
+{
+  "name": "codex-agent",
+  "version": "0.1.0",
+  "description": "Per-repo Codex agent container runtime (streams JSON events via SSE)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.19.0",
+    "simple-git": "^3.22.2"
+  }
+}
