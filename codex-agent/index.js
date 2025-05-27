@@ -14,18 +14,18 @@ const __dirname = path.dirname(__filename);
 // Env vars
 // ---------------------------------------------------------------------------
 const {
-  GIT_REPO_URL,
-  INITIAL_PROMPT,
+  GITHUB_URL,
+  INITIAL_QUERY,
   OPENAI_API_KEY,
   CALLBACK_URL,
-  JOB_ID,
+  SESSION_ID,
   PORT = 8080,
 } = process.env;
 
-if (!GIT_REPO_URL || !INITIAL_PROMPT || !OPENAI_API_KEY) {
+if (!GITHUB_URL || !INITIAL_QUERY || !OPENAI_API_KEY) {
   // eslint-disable-next-line no-console
   console.error(
-    "Missing one of required env vars: GIT_REPO_URL, INITIAL_PROMPT, OPENAI_API_KEY",
+    "Missing one of required env vars: GITHUB_URL, INITIAL_QUERY, OPENAI_API_KEY",
   );
   process.exit(1);
 }
@@ -89,7 +89,7 @@ function handleEventLine(line) {
     console.error("Non-JSON line from codex:", line);
     return;
   }
-  if (JOB_ID) obj.job_id = JOB_ID;
+  if (SESSION_ID) obj.session_id = SESSION_ID;
 
   broadcast(obj);
   postCallback(obj);
@@ -110,9 +110,9 @@ async function main() {
   fs.mkdirSync(workspace, { recursive: true });
 
   // eslint-disable-next-line no-console
-  console.log(`Cloning ${GIT_REPO_URL} into ${repoDir}…`);
+  console.log(`Cloning ${GITHUB_URL} into ${repoDir}…`);
   try {
-    await simpleGit().clone(GIT_REPO_URL, repoDir, ["--depth", "1"]);
+    await simpleGit().clone(GITHUB_URL, repoDir, ["--depth", "1"]);
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error("git clone failed:", err);
@@ -121,7 +121,7 @@ async function main() {
 
   // 2. Spawn Codex CLI in quiet mode
   //    We intentionally run CLI as a child process for isolation & stability.
-  const codexArgs = ["-q", "--json", "-a", "full-auto", INITIAL_PROMPT];
+  const codexArgs = ["-q", "--json", "-a", "full-auto", INITIAL_QUERY];
 
   // eslint-disable-next-line no-console
   console.log(`Running: codex ${codexArgs.join(" ")}`);
