@@ -24,4 +24,4 @@ COPY --chown=worker:worker . .
 
 EXPOSE 8080
 
-ENTRYPOINT ["node", "index.js"] 
+ENTRYPOINT ["node", "index.js"]

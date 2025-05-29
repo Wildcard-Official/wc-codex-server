@@ -81,9 +81,9 @@ async function postCallback(eventObj) {
 
 function handleEventLine(line) {
   if (!line.trim()) return; // skip empty lines
-  let obj;
+  let obj = {};
   try {
-    obj = JSON.parse(line);
+    obj.content = JSON.parse(line);
   } catch (err) {
     // eslint-disable-next-line no-console
     console.error("Non-JSON line from codex:", line);
@@ -94,9 +94,9 @@ function handleEventLine(line) {
   broadcast(obj);
   postCallback(obj);
 
-  if (obj.type === "finished") {
+  if (obj.content.type === "finished") {
     // Allow some time for final events to flush
-    setTimeout(() => process.exit(obj.exit_code ?? 0), 500);
+    setTimeout(() => process.exit(obj.content.exit_code ?? 0), 500);
   }
 }
 
