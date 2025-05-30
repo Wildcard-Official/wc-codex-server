@@ -2,13 +2,23 @@
   "name": "codex-agent",
   "version": "0.1.0",
   "description": "Per-repo Codex agent container runtime (streams JSON events via SSE)",
-  "main": "index.js",
+  "main": "dist/index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "dev": "tsx src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js"
   },
   "dependencies": {
     "express": "^4.19.0",
-    "simple-git": "^3.22.2"
-  }
+    "simple-git": "^3.22.2",
+    "@octokit/rest": "^20.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5",
+    "tsx": "^4.7.1",
+    "@types/node": "^20.11.26",
+    "@types/express": "^4.17.21"
+  },
+  "packageManager": "yarn@1.22.22"
 }
